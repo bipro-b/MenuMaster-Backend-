@@ -23,17 +23,17 @@ public class AppConfig {
 
 
     @Bean
-   public SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
+
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
 
         http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(Authorize -> Authorize
-                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER" , "ADMIN") //only can access admin and restaurant owner
-                        .requestMatchers("/api/**").authenticated() // user should be probide the jwt token to access this end points
-                        .anyRequest().permitAll() // any user can access this enc point
+                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER" , "ADMIN")
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
                 ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
                 .csrf(csrf->csrf.disable())
                 .cors(cors->cors.configurationSource(corsConfigurationSource()));
-
 
         return http.build();
 
