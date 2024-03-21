@@ -1,28 +1,34 @@
 package com.bipro.food.model;
 
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+
 @Entity
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class IngredientsItem {
+@NoArgsConstructor
+public class CartItem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
-
-    private String name;
+    private Long id;
 
     @ManyToOne
-    private IngredientCategory category;
+    private Cart cart;
 
     @ManyToOne
-    private Restaurant restaurant;
+    private Food food;
 
-    private boolean inStock = true;
+    private int quantity;
+
+    private List<String> ingredients;
+
+    private int totalPrice;
 
 }

@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @AllArgsConstructor
@@ -40,5 +41,7 @@ public class Food {
     @ManyToMany
     private List<IngredientsItem> ingredientsItems = new ArrayList<>();
 
+
+    private Date creationDate;
 
 }

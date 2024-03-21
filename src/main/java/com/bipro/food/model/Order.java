@@ -2,14 +2,17 @@ package com.bipro.food.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
 
 import java.util.Date;
 import java.util.List;
 
-
+@NoArgsConstructor
+@AllArgsConstructor
 @Entity
-
+@Table(name = "orders")
 public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
