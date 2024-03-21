@@ -25,46 +25,51 @@ import java.util.Collections;
 public class AppConfig {
 
     private JwtAuthenticationEntryPoint point;
-    private JwtAuthenticationFilter filter;
 
-
-    public AppConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
-                          JwtAuthenticationFilter jwtAuthenticationFilter) {
-        this.point = jwtAuthenticationEntryPoint;
-        this.filter= jwtAuthenticationFilter;
-    }
-
-    @Bean
-
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
-        http.csrf(csrf->csrf.disable())
-                .authorizeRequests()
-                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","ROLE_RESTAURANT_OWNER")
-                .requestMatchers("/api/**").authenticated()
-                .anyRequest().permitAll()
-                .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(csrf->csrf.disable())
-                .cors(cors->cors.configurationSource(corsConfigurationSource()));
-
-        http.addFilterBefore(filter, UsernamePasswordAuthenticationFilter.class);
-        return http.build();
-    }
-
-//    SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
+//    public AppConfig(JwtAuthenticationEntryPoint point) {
+//        this.point = point;
+//    }
+//    private JwtAuthenticationFilter filter;
 //
-//        http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-//                .authorizeHttpRequests(Authorize -> Authorize
-//                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER" , "ADMIN")
-//                        .requestMatchers("/api/**").authenticated()
-//                        .anyRequest().permitAll()
-//                ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+//
+//    public AppConfig(JwtAuthenticationEntryPoint jwtAuthenticationEntryPoint,
+//                          JwtAuthenticationFilter jwtAuthenticationFilter) {
+//        this.point = jwtAuthenticationEntryPoint;
+//        this.filter= jwtAuthenticationFilter;
+//    }
+
+//    @Bean
+//
+//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
+//        http.csrf(csrf->csrf.disable())
+//                .authorizeRequests()
+//                .requestMatchers("/api/admin/**").hasAnyRole("ADMIN","ROLE_RESTAURANT_OWNER")
+//                .requestMatchers("/api/**").authenticated()
+//                .anyRequest().permitAll()
+//                .and().exceptionHandling(ex -> ex.authenticationEntryPoint(point))
+//                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 //                .csrf(csrf->csrf.disable())
 //                .cors(cors->cors.configurationSource(corsConfigurationSource()));
 //
+//        http.addFilterBefore(new JwtTokenValidator(), UsernamePasswordAuthenticationFilter.class);
 //        return http.build();
-//
 //    }
+
+    @Bean
+    SecurityFilterChain securityFilterChain(HttpSecurity http) throws  Exception{
+
+        http.sessionManagement(management->management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .authorizeHttpRequests(Authorize -> Authorize
+                        .requestMatchers("/api/admin/**").hasAnyRole("RESTAURANT_OWNER" , "ADMIN")
+                        .requestMatchers("/api/**").authenticated()
+                        .anyRequest().permitAll()
+                ).addFilterBefore(new JwtTokenValidator(), BasicAuthenticationFilter.class)
+                .csrf(csrf->csrf.disable())
+                .cors(cors->cors.configurationSource(corsConfigurationSource()));
+
+        return http.build();
+
+    }
 
 
     private CorsConfigurationSource corsConfigurationSource() {
