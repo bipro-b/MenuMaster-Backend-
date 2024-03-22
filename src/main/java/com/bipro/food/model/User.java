@@ -28,7 +28,7 @@ public class User {
     private String password;
 
 
-    private USER_ROLE role = USER_ROLE.ROLE_CUSTOMER;
+    private USER_ROLE role = USER_ROLE.CUSTOMER;
 
     @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "customer")
@@ -40,5 +40,10 @@ public class User {
 
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Address> addresses = new ArrayList<>();
+
+
+    public boolean hasRole(USER_ROLE role) {
+        return this.role == role;
+    }
 
 }

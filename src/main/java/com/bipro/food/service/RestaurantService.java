@@ -33,6 +33,10 @@ public class RestaurantService implements IRestaurantService{
 
         Address address = addressRepository.save(req.getAddress());
 
+        address.setCity(address.getCity());
+        address.setCountry(address.getCountry());
+        address.setStreet(address.getStreet());
+
         Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurant.getName());
         restaurant.setDescription(restaurant.getDescription());
@@ -113,10 +117,22 @@ public class RestaurantService implements IRestaurantService{
         dto.setImages(restaurant.getImages());
         dto.setTitle(restaurant.getName());
         dto.setId(restaurantId);
-        if(user.getFavorites().contains(dto)){
-            user.getFavorites().remove(dto);
+
+        boolean isFavorite = false;
+
+        List<RestaurantDto> favorites = user.getFavorites();
+        for(RestaurantDto favorite:favorites){
+            if(favorite.getId().equals(restaurantId)){
+                isFavorite= true;
+                break;
+            }
         }
-        else user.getFavorites().add(dto);
+        if(isFavorite){
+            favorites.removeIf(favorite->favorite.getId().equals(restaurantId));
+        }
+        else {
+            favorites.add(dto);
+        }
 
         userRepository.save(user);
         return dto;

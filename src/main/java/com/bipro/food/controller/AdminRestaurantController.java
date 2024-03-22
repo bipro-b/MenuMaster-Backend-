@@ -1,6 +1,7 @@
 package com.bipro.food.controller;
 
 import com.bipro.food.model.Restaurant;
+import com.bipro.food.model.USER_ROLE;
 import com.bipro.food.model.User;
 import com.bipro.food.request.CreateRestaurantRequest;
 import com.bipro.food.response.MessageResponse;
@@ -30,6 +31,10 @@ public class AdminRestaurantController {
 
         User user = iUserService.findUserByJwtToken(jwt);
 
+        if (user.getRole()!= USER_ROLE.ADMIN && user.getRole()!=USER_ROLE.RESTAURANT_OWNER){
+            // If the user does not have the required role, return a forbidden response
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
         Restaurant restaurant = iRestaurantService.createRestaurant(req,user);
 
         return new ResponseEntity<>(restaurant, HttpStatus.CREATED);
@@ -50,7 +55,8 @@ public class AdminRestaurantController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<MessageResponse> deleteRestaurant(
-            @RequestHeader("Authorization") String jwt,@PathVariable  Long id) throws Exception {
+            @RequestHeader("Authorization") String jwt,
+            @PathVariable  Long id) throws Exception {
 
         User user = iUserService.findUserByJwtToken(jwt);
 
@@ -64,19 +70,15 @@ public class AdminRestaurantController {
 
     @PutMapping("/{id}/status")
     public ResponseEntity<Restaurant> updateRestaurantStatus(
-            @RequestBody CreateRestaurantRequest req,
             @RequestHeader("Authorization") String jwt, @PathVariable Long id) throws Exception {
-
-        User user = iUserService.findUserByJwtToken(jwt);
 
         Restaurant restaurant = iRestaurantService.updateRestaurantStatus(id);
 
         return new ResponseEntity<>(restaurant, HttpStatus.OK);
     }
 
-    @PutMapping("/user")
+    @GetMapping("/user")
     public ResponseEntity<Restaurant> findRestaurantByUserId(
-            @RequestBody CreateRestaurantRequest req,
             @RequestHeader("Authorization") String jwt) throws Exception {
 
         User user = iUserService.findUserByJwtToken(jwt);
