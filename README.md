@@ -19,6 +19,10 @@ MasterMenu is a RESTful API for managing users, foods, events, and more.
 - MySQL
 - JSON Web Tokens (JWT)
 - Maven
+  
+## Database Schema and Relationship Diagram
+
+![Database Schema and Relationship Diagram](https://raw.githubusercontent.com/bipro-b/MenuMaster-Backend-/main/schema/MasterMenu.png)
 
 ## Setup
 
