@@ -33,19 +33,17 @@ public class RestaurantService implements IRestaurantService{
 
         Address address = addressRepository.save(req.getAddress());
 
-        address.setCity(address.getCity());
-        address.setCountry(address.getCountry());
-        address.setStreet(address.getStreet());
+
 
         Restaurant restaurant = new Restaurant();
-        restaurant.setName(restaurant.getName());
-        restaurant.setDescription(restaurant.getDescription());
+        restaurant.setName(req.getName());
+        restaurant.setDescription(req.getDescription());
         restaurant.setAddress(address);
-        restaurant.setContactInformation(restaurant.getContactInformation());
-        restaurant.setImages(restaurant.getImages());
-        restaurant.setOpeningHours(restaurant.getOpeningHours());
+        restaurant.setContactInformation(req.getContactInformation());
+        restaurant.setImages(req.getImages());
+        restaurant.setOpeningHours(req.getOpeningHours());
         restaurant.setRegistrationDate(LocalDateTime.now());
-        restaurant.setCuisineType(restaurant.getCuisineType());
+        restaurant.setCuisineType(req.getCuisineType());
         restaurant.setOwner(user);
 
         return restaurantRepository.save(restaurant);
