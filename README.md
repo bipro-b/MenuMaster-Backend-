@@ -37,22 +37,27 @@ Run the application
 
 mvn spring-boot:run
 
+```
 
-API Endpoints
+## API Endpoints
+
 Users
 
 GET /api/users/{id}: Get user by ID
 POST /api/users: Create a new user
 PUT /api/users/{id}: Update user
 DELETE /api/users/{id}: Delete user
+
+
 Foods
 
 GET /api/foods/{id}: Get food by ID
 POST /api/foods: Create a new food
 PUT /api/foods/{id}: Update food
 DELETE /api/foods/{id}: Delete food
-Events
 
+
+Events
 GET /api/events/{id}: Get event by ID
 POST /api/events: Create a new event
 PUT /api/events/{id}: Update event
